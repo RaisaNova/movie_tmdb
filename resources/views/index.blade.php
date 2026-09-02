@@ -23,46 +23,80 @@
 
             <a
                 href="{{ route('movie.detail', $movie['id']) }}"
-                class="block bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl hover:-translate-y-1 transition duration-300"
+                class="group block bg-white rounded-lg shadow-md overflow-hidden
+                       hover:shadow-2xl hover:-translate-y-2
+                       transition-all duration-300 ease-in-out"
             >
 
                 {{-- Poster --}}
-                @if (!empty($movie['poster_path']))
+                <div class="relative overflow-hidden">
 
-                    <img
-                        src="https://image.tmdb.org/t/p/w500{{ $movie['poster_path'] }}"
-                        alt="{{ $movie['title'] }}"
-                        class="w-full aspect-[2/3] object-cover"
+                    @if (!empty($movie['poster_path']))
+
+                        <img
+                            src="https://image.tmdb.org/t/p/w500{{ $movie['poster_path'] }}"
+                            alt="{{ $movie['title'] }}"
+                            class="w-full aspect-[2/3] object-cover
+                                   transition-transform duration-500
+                                   group-hover:scale-110"
+                        >
+
+                    @else
+
+                        <div class="w-full aspect-[2/3] bg-gray-200 flex items-center justify-center">
+                            <span class="text-gray-500 text-sm">
+                                Tidak ada poster
+                            </span>
+                        </div>
+
+                    @endif
+
+                    {{-- Overlay ketika hover --}}
+                    <div
+                        class="absolute inset-0 bg-black/0
+                               group-hover:bg-black/60
+                               transition-all duration-300
+                               flex items-center justify-center"
                     >
 
-                @else
-
-                    <div class="w-full aspect-[2/3] bg-gray-200 flex items-center justify-center">
-                        <span class="text-gray-500 text-sm">
-                            Tidak ada poster
+                        {{-- Teks Detail --}}
+                        <span
+                            class="text-white font-semibold text-lg
+                                   opacity-0 scale-75
+                                   group-hover:opacity-100
+                                   group-hover:scale-100
+                                   transition-all duration-300"
+                        >
+                            Lihat Detail
                         </span>
+
                     </div>
 
-                @endif
+                </div>
 
                 {{-- Informasi film --}}
-                <div class="p-4">
+            <div class="p-4 flex flex-col flex-1">
 
-                    <h2 class="font-semibold text-lg line-clamp-2">
-                        {{ $movie['title'] }}
-                    </h2>
+                {{-- Judul --}}
+                <h2 class="font-semibold text-lg line-clamp-2 min-h-[56px]">
+                    {{ $movie['title'] }}
+                </h2>
 
-                    <p class="text-sm text-gray-500 mt-2">
-                        {{ $movie['release_date'] ?? 'Tanggal tidak tersedia' }}
-                    </p>
+                {{-- Tanggal --}}
+                <p class="text-sm text-gray-500 mt-2 min-h-[20px]">
+                    {{ $movie['release_date'] ?? 'Tanggal tidak tersedia' }}
+                </p>
 
-                    <p class="text-sm mt-3 text-gray-600 line-clamp-3">
-                        {{ !empty($movie['overview'])
-                            ? $movie['overview']
-                            : 'Tidak ada deskripsi.' }}
-                    </p>
+                {{-- Deskripsi --}}
+                <p class="text-sm mt-3 text-gray-600 line-clamp-3 min-h-[60px]">
+                    {{ !empty($movie['overview'])
+                        ? $movie['overview']
+                        : 'Tidak ada deskripsi.' }}
+                </p>
 
-                </div>
+            </div>
+
+
 
             </a>
 
