@@ -15,4 +15,20 @@ class MovieController extends Controller
 
         return view('index', compact('movies'));
     }
+    
+    public function show($id)
+    {
+        $response = Http::withoutVerifying()
+        ->withToken(env('TMDB_TOKEN'))
+        ->get("https://api.themoviedb.org/3/movie/{$id}");
+
+        if ($response->failed()) {
+            abort(404, 'Film tidak ditemukan');
+        }
+
+        $movie = $response->json();
+
+        return view('detail', compact('movie'));
+
+    }
 }
